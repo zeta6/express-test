@@ -1,0 +1,198 @@
+paths:
+  /api/test-product:
+    post:
+      tags:
+        - test-product
+      summary: 상품 생성
+      description: The category is enum type. "other" | "ring" | "necklace" | "earring"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: One Ring
+                code:
+                  type: string
+                  example: "RD-512"
+                discountRate:
+                  type: number
+                  example: 5
+                price:
+                  type: number
+                  example: 10000
+                category:
+                  type: string
+                  example: "ring"
+                  description: enum "other" | "ring" | "necklace" | "earring"
+                likes:
+                  type: number
+                  example: 0
+      responses:
+        "200":
+          description: Response success true or false
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-product-boolean"
+        "500":
+          description: Response success true or false and error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-failed"
+    get:
+      tags:
+        - test-product
+      summary: 상품 목록 조회
+      parameters:
+        - in: query
+          name: curOffset
+          required: false
+          type: integer
+          minimum: 0
+          description: current offset 0 if empty.
+        - in: query
+          name: limit
+          required: false
+          type: integer
+          minimum: 10
+          description: number of lists to query 10 if empty
+      responses:
+        "200":
+          description: Response success true or false and data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-succed"
+        "500":
+          description: Response success true or false and error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-failed"
+
+  /api/test-product/{id}:
+    get:
+      tags:
+        - test-product
+      summary: 상품 단일 조회
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+          description: The product ID.
+      responses:
+        "200":
+          description: Response success true or false and data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-succed"
+        "500":
+          description: Response success true or false and error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-failed"
+    put:
+      tags:
+        - test-product
+      summary: 상품 업데이트
+      description: The category is enum type. "other" | "ring" | "necklace" | "earring"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+          description: The product ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: One Ring
+                code:
+                  type: string
+                  example: "RD-512"
+                discountRate:
+                  type: number
+                  example: 5
+                price:
+                  type: number
+                  example: 10000
+                category:
+                  type: string
+                  example: "ring"
+                  description: enum "other" | "ring" | "necklace" | "earring"
+                likes:
+                  type: number
+                  example: 1
+      responses:
+        "200":
+          description: Response success true or false
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-product-boolean"
+        "500":
+          description: Response success true or false and error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-failed"
+    delete:
+      tags:
+        - test-product
+      summary: 상품 삭제
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 0
+          description: The product ID.
+      responses:
+        "200":
+          description: Response success true or false
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-product-boolean"
+        "500":
+          description: Response success true or false and error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-products-failed"
+components:
+  schemas:
+    test-product-boolean:
+      type: object
+      properties:
+        success:
+          type: boolean
+          # example: true
+    test-products-succed:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+    test-products-failed:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
