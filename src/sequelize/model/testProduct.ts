@@ -27,6 +27,11 @@ export const TestProduct = sequelize.define(
       values: ["other", "ring", "necklace", "earring"],
       defaultValue: "other",
     },
+    likes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
     // Other model options go here
