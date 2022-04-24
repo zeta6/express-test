@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 
 import { TestProduct } from "../sequelize/model/testProduct";
+import { chkTestProductVal } from "../utils/TestProduct";
 
 interface Condition {
   order: Array<any>;
@@ -63,10 +64,7 @@ export const getTestProduct = async (req: Request, res: Response) => {
 export const createTestProduct = async (req: Request, res: Response) => {
   const { name, code, discountRate, price, category, likes } = req.body;
   try {
-    const categorys = ["other", "ring", "necklace", "earring"];
-    if (!categorys.includes(category)) {
-      throw `error: Invalid category value.`;
-    }
+    chkTestProductVal(discountRate, category);
     await TestProduct.create({
       name: name,
       code: code,
@@ -91,10 +89,7 @@ export const updateTestProduct = async (req: Request, res: Response) => {
   const prodId = req.params.id;
   const { name, code, discountRate, price, category, likes } = req.body;
   try {
-    const categorys = ["other", "ring", "necklace", "earring"];
-    if (!categorys.includes(category)) {
-      throw `error: Invalid category value.`;
-    }
+    chkTestProductVal(discountRate, category);
     const result = await TestProduct.update(
       {
         name: name,
