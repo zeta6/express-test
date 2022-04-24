@@ -27,7 +27,7 @@ yarn install
 yarn dev
 ```
 
-It works on localhost:3000
+It works on http://localhost:3000
 
 The api is documented in swagger.  
-You can check and test at localhost:3000/api-docs
+You can check and test at http://localhost:3000/api-docs

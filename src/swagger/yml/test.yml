@@ -1,0 +1,44 @@
+paths:
+  /api/test-product:
+    post:
+      tags:
+        - test-product
+      summary: 상품 생성
+      description: The category is enum type. "other" | "ring" | "necklace" | "earring"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: One Ring
+                code:
+                  type: string
+                  example: "RD-512"
+                discountRate:
+                  type: number
+                  example: 5
+                price:
+                  type: number
+                  example: 10000
+                category:
+                  type: string
+                  example: "ring"
+                  description: enum "other" | "ring" | "necklace" | "earring"
+      responses:
+        "200":
+          description: Response success true or false
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/test-product-post"
+components:
+  schemas:
+    test-product-post:
+      type: object
+      properties:
+        success:
+          type: boolean
+          # example: true
