@@ -32,5 +32,5 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.listen(port, () => {
-  console.log(`server listening on port: ${port})`);
+  console.log(`server listening on port: ${port}`);
 });
