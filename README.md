@@ -6,10 +6,10 @@ Create an .env file in your project root and set the environment variable (doten
  or set it manually in ./sequelize/config.ts .
 
 If you use .env , the required environment variables are as follows.  
-DB_HOST = database endpoint
-DB_USER = database user name
-DB_PWD = database user password
-DB_DBNAME = database name
+DB_HOST = database endpoint  
+DB_USER = database user name  
+DB_PWD = database user password  
+DB_DBNAME = database name  
 DB_DIALECT = database dialect
 
 Install and run with npm or yarn.
@@ -26,3 +26,8 @@ or if you want to run as dev
 yarn install
 yarn dev
 ```
+
+It works on localhost:3000
+
+The api is documented in swagger.  
+You can check and test at localhost:3000/api-docs
