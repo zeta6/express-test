@@ -6,9 +6,9 @@ export const chkTestProductVal = (
   const categorys = ["other", "ring", "necklace", "earring"];
   if (!categorys.includes(category)) {
     // bool = false;
-    throw `error: Invalid category value.`;
+    throw `Invalid category value.`;
   }
   if (discountRate > 100 || discountRate < 0) {
-    throw `error: Invalid discountRate value.`;
+    throw `Invalid discountRate value.`;
   }
 };
