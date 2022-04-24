@@ -12,11 +12,12 @@ interface Condition {
 // 10 products from curOffset are included, sorted by the highest ID number. To fix this part, edit the condition.
 export const getTestProducts = async (req: Request, res: Response) => {
   const curOffset = parseInt(req.query.curOffset as string) | 0;
+  const limit = parseInt(req.query.limit as string) | 10;
   try {
     const condition: Condition = {
       order: [["id", "DESC"]],
       offset: curOffset,
-      limit: 10,
+      limit: limit,
     };
     const resultArr: Array<object | number> = await Promise.all([
       TestProduct.findAll(condition),
@@ -45,6 +46,7 @@ export const getTestProduct = async (req: Request, res: Response) => {
   const prodId = req.params.id;
   try {
     const result = await TestProduct.findOne({ where: { id: prodId } });
+    if (result === null) throw `The ID:${prodId} does not exist.`;
     res.send({
       success: true,
       data: result,
@@ -59,7 +61,7 @@ export const getTestProduct = async (req: Request, res: Response) => {
 };
 
 export const createTestProduct = async (req: Request, res: Response) => {
-  const { name, code, discountRate, price, category } = req.body;
+  const { name, code, discountRate, price, category, likes } = req.body;
   try {
     const categorys = ["other", "ring", "necklace", "earring"];
     if (!categorys.includes(category)) {
@@ -71,6 +73,7 @@ export const createTestProduct = async (req: Request, res: Response) => {
       discountRate: discountRate,
       price: price,
       category: category,
+      likes: likes,
     });
     res.send({
       success: true,
@@ -85,25 +88,28 @@ export const createTestProduct = async (req: Request, res: Response) => {
 };
 
 export const updateTestProduct = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const { name, code, discountRate, price, category } = req.body;
+  const prodId = req.params.id;
+  const { name, code, discountRate, price, category, likes } = req.body;
   try {
     const categorys = ["other", "ring", "necklace", "earring"];
     if (!categorys.includes(category)) {
       throw `error: Invalid category value.`;
     }
-    await TestProduct.update(
+    const result = await TestProduct.update(
       {
         name: name,
         code: code,
         discountRate: discountRate,
         price: price,
         category: category,
+        likes: likes,
       },
       {
-        where: { id: id },
+        where: { id: prodId },
       }
     );
+    if (result[0] === 0)
+      throw `The ID:${prodId} does not exist or a duplicate request has been received.`;
     res.send({
       success: true,
     });
@@ -117,11 +123,13 @@ export const updateTestProduct = async (req: Request, res: Response) => {
 };
 
 export const delTestProduct = async (req: Request, res: Response) => {
-  const id = req.params.id;
+  const prodId = req.params.id;
   try {
-    await TestProduct.destroy({
-      where: { id: id },
+    const result = await TestProduct.destroy({
+      where: { id: prodId },
     });
+    if (result === 0)
+      throw `The ID:${prodId} does not exist or a duplicate request has been received.`;
     res.send({
       success: true,
     });
