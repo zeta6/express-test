@@ -12,8 +12,8 @@ interface Condition {
 // Inside the response is products array and products total.
 // 10 products from curOffset are included, sorted by the highest ID number. To fix this part, edit the condition.
 export const getTestProducts = async (req: Request, res: Response) => {
-  const curOffset = parseInt(req.query.curOffset as string) | 0;
-  const limit = parseInt(req.query.limit as string) | 10;
+  const curOffset = parseInt(req.query.curOffset as string) || 0;
+  const limit = parseInt(req.query.limit as string) || 10;
   try {
     const condition: Condition = {
       order: [["id", "DESC"]],
